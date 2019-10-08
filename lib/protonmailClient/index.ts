@@ -17,6 +17,7 @@ export interface IProtonmailClientOptions {
 
 export declare interface ProtonmailClient {
     on(event: "logout", listener: () => void): this;
+
     on(event: string, listener: Function): this;
 }
 
@@ -147,12 +148,10 @@ export class ProtonmailClient extends EventEmitter {
                     this.refreshToken !== "") {
                     if (!this.refreshingToken_) {
                         this.refreshingToken_ = true;
-                        this.emit("pre_refresh_token");
                         await this.loginWithToken({
                             RefreshToken: this.refreshToken,
                             Uid: this.pmUID,
                         });
-                        this.emit("post_refresh_token");
                         this.refreshingToken_ = false;
                     }
                     return this.request<T>(config);
@@ -177,6 +176,7 @@ export class ProtonmailClient extends EventEmitter {
         this.refreshToken = response.RefreshToken;
         this.pmUID = response.Uid;
         this.isloggedIn_ = true;
+        this.emit("refresh_token_change");
         return response;
     }
 
@@ -237,6 +237,7 @@ export class ProtonmailClient extends EventEmitter {
         this.accessToken = accessToken;
         this.refreshToken = authResponse.RefreshToken;
         this.pmUID = authResponse.Uid;
+        this.emit("refresh_token_change");
 
         if (twoFactorEnabled) {
             await this.auth2FA({
