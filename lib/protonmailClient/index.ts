@@ -176,6 +176,7 @@ export class ProtonmailClient extends EventEmitter {
         this.accessToken = response.AccessToken;
         this.refreshToken = response.RefreshToken;
         this.pmUID = response.Uid;
+        this.isloggedIn_ = true;
         return response;
     }
 
