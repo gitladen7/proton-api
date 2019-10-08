@@ -35,7 +35,7 @@ export const MessageMetadata = t.type({
     NumAttachments: t.number,
     ExpirationTime: t.number,
     AddressID: t.string,
-    ExternalID: t.string,
+    ExternalID: t.union([t.string, t.null]),
     Starred: t.number,
     Location: t.number,
     LabelIDs: t.array(t.union([t.number, t.string])),

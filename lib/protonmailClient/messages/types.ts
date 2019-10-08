@@ -34,7 +34,7 @@ export interface IMessageMetadata {
     NumAttachments: number;
     ExpirationTime: number;
     AddressID: string;
-    ExternalID: string;
+    ExternalID: string | null;
     Starred: number;
     Location: number;
     LabelIDs: (DefaultLabels | number | string)[];
