@@ -11,6 +11,7 @@ import { EventEmitter } from "events";
 import { IBaseAPIResponse } from "./types";
 
 export interface IProtonmailClientOptions {
+    domain: string;
     rateLimit: boolean;
     userAgent: string;
 }
@@ -30,6 +31,7 @@ export class ProtonmailClient extends EventEmitter {
     private pmUID_: string = "";
     private rateLimiter: RateLimiter = new RateLimiter();
     private options: IProtonmailClientOptions = {
+        domain: "mail.protonmail.com",
         rateLimit: true,
         userAgent: "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0",
     }
@@ -90,6 +92,10 @@ export class ProtonmailClient extends EventEmitter {
                 this.options.userAgent = options.userAgent;
             }
 
+            if (typeof options.domain === "string") {
+                this.options.domain = options.domain;
+            }
+
             if (typeof options.rateLimit === "boolean") {
                 this.options.rateLimit = options.rateLimit;
             }
@@ -128,8 +134,9 @@ export class ProtonmailClient extends EventEmitter {
 
         return axios.create({
             transformResponse,
-            baseURL: "https://mail.protonmail.com/api/",
+            baseURL: `https://${this.options.domain}/api/`,
             headers,
+            withCredentials: true,
         });
     }
 
