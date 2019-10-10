@@ -13,4 +13,4 @@ test("labels list route works", async () => {
 
     const v = LabelsListResponse.decode(labelsResponse);
     expectToValidate(v);
-}, 30000);
+}, 120000);

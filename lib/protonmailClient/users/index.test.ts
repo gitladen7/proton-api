@@ -10,4 +10,4 @@ test("user route works", async () => {
 
     const v = UsersResponse.decode(usersResponse);
     expectToValidate(v);
-}, 30000);
+}, 120000);

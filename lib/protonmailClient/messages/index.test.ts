@@ -10,7 +10,7 @@ test("messages count route works", async () => {
     const countResponse = await client.messages.count();
     const v = MessagesCountResponse.decode(countResponse);
     expectToValidate(v);
-}, 30000);
+}, 120000);
 
 test("messages list route works", async () => {
     const client = new ProtonmailClient();
@@ -24,7 +24,7 @@ test("messages list route works", async () => {
 
     const v = MessagesListResponse.decode(messagesResponse);
     expectToValidate(v);
-}, 30000);
+}, 120000);
 
 test("messages get route works", async () => {
     const client = new ProtonmailClient();
@@ -40,4 +40,4 @@ test("messages get route works", async () => {
     const messageResponse = await client.messages.get(firstMessage.ID);
     const v = MessagesGetResponse.decode(messageResponse);
     expectToValidate(v);
-}, 30000);
+}, 120000);
