@@ -114,6 +114,10 @@ export class ProtonmailClient extends EventEmitter {
             "x-pm-appversion": "Other",
         };
 
+        if (typeof window !== "undefined") {
+            delete headers["User-Agent"];
+        }
+
         if (this.pmUID !== "") {
             headers["x-pm-uid"] = this.pmUID;
         }
