@@ -9,6 +9,7 @@ import { LabelsRoutes } from "./labels/index";
 import { MessagesRoutes } from "./messages/index";
 import { EventEmitter } from "events";
 import { IBaseAPIResponse } from "./types";
+import { EventsRoutes } from "./events";
 
 export interface IProtonmailClientOptions {
     domain: string;
@@ -77,6 +78,11 @@ export class ProtonmailClient extends EventEmitter {
         return this.messages_;
     }
 
+    private events_: EventsRoutes;
+    public get events(): EventsRoutes {
+        return this.events_;
+    }
+
     public get isLoggedIn(): boolean {
         return this.isloggedIn_;
     }
@@ -86,6 +92,7 @@ export class ProtonmailClient extends EventEmitter {
         this.users_ = new UsersRoutes(this);
         this.labels_ = new LabelsRoutes(this);
         this.messages_ = new MessagesRoutes(this);
+        this.events_ = new EventsRoutes(this);
 
         if (options) {
             if (typeof options.userAgent === "string") {
@@ -169,7 +176,9 @@ export class ProtonmailClient extends EventEmitter {
                 }
             } catch (error) {
                 if (error.response) {
-                    if (error.response.status === 422) {
+                    if (error.response.status >= 400 &&
+                        error.response.status !== 429
+                        && error.response.status < 500) {
                         this.isloggedIn_ = false;
                         this.emit("logout");
                     }
