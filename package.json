@@ -28,7 +28,7 @@
     "@types/create-hash": "^1.2.1",
     "@types/node": "^12.7.11",
     "@types/randombytes": "^2.0.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "bignumber.js": "^9.0.0",
     "create-hash": "^1.2.0",
