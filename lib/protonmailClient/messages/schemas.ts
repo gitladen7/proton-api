@@ -36,8 +36,6 @@ export const MessageMetadata = t.type({
     ExpirationTime: t.number,
     AddressID: t.string,
     ExternalID: t.union([t.string, t.null]),
-    Starred: t.number,
-    Location: t.number,
     LabelIDs: t.array(t.union([t.number, t.string])),
 });
 
@@ -90,5 +88,17 @@ export const MessagesCountResponse = t.intersection([
     BaseAPIResponse,
     t.type({
         Counts: t.array(MessagesCountItem),
+    }),
+]);
+
+export const FlagMessageResponseItem = t.type({
+    ID: t.string,
+    Response: BaseAPIResponse,
+});
+
+export const FlagMessageResponse = t.intersection([
+    BaseAPIResponse,
+    t.type({
+        Responses: t.array(FlagMessageResponseItem),
     }),
 ]);

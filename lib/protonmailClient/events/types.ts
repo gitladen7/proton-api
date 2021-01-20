@@ -22,7 +22,7 @@ export interface IEventsMessageCount {
 export interface IEventsMessage {
     ID: string;
     Action: number;
-    Message: IMessageMetadata;
+    Message?: IMessageMetadata;
 }
 
 export interface IEventsLabel {

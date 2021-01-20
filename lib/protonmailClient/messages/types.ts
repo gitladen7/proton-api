@@ -86,3 +86,12 @@ export interface IMessagesCountItem {
 export interface IMessagesCountResponse extends IBaseAPIResponse {
     Counts: IMessagesCountItem[];
 }
+
+export interface IFlagMessageResponse {
+    ID: string;
+    Response: IBaseAPIResponse;
+}
+
+export interface IMessagesFlagResponse extends IBaseAPIResponse {
+    Responses: IFlagMessageResponse[];
+}

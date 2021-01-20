@@ -157,6 +157,7 @@ export class ProtonmailClient extends EventEmitter {
         }
 
         try {
+            config.timeout = 60 * 1000 * 5;
             const response = await this.axios.request<T>(config);
             return response;
         } catch (error) {
