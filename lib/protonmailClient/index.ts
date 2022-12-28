@@ -32,7 +32,7 @@ export class ProtonmailClient extends EventEmitter {
     private pmUID_: string = "";
     private rateLimiter: RateLimiter = new RateLimiter();
     private options: IProtonmailClientOptions = {
-        domain: "mail.protonmail.com",
+        domain: "mail.proton.me",
         rateLimit: true,
         userAgent: "Mozilla/5.0 (Windows NT 6.1; rv:60.0) Gecko/20100101 Firefox/60.0",
     }
@@ -303,7 +303,7 @@ export class ProtonmailClient extends EventEmitter {
             url: "auth/refresh",
             data: {
                 GrantType: "refresh_token",
-                RedirectURI: "https://protonmail.com",
+                RedirectURI: "https://proton.me",
                 RefreshToken: refreshToken,
                 ResponseType: "token",
                 State: getRandomString(24),
