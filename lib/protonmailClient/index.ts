@@ -10,6 +10,7 @@ import { MessagesRoutes } from "./messages/index";
 import { EventEmitter } from "events";
 import { IBaseAPIResponse } from "./types";
 import { EventsRoutes } from "./events";
+import { SessionsRoutes } from "./sessions";
 
 export interface IProtonmailClientOptions {
     domain: string;
@@ -83,6 +84,11 @@ export class ProtonmailClient extends EventEmitter {
         return this.events_;
     }
 
+    private sessions_: SessionsRoutes;
+    public get sessions(): SessionsRoutes {
+        return this.sessions_;
+    }
+
     public get isLoggedIn(): boolean {
         return this.isloggedIn_;
     }
@@ -93,6 +99,7 @@ export class ProtonmailClient extends EventEmitter {
         this.labels_ = new LabelsRoutes(this);
         this.messages_ = new MessagesRoutes(this);
         this.events_ = new EventsRoutes(this);
+        this.sessions_ = new SessionsRoutes(this);
 
         if (options) {
             if (typeof options.userAgent === "string") {
