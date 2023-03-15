@@ -1,6 +1,6 @@
 {
   "name": "proton-api",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Unofficial API for ProtonMail. Works both in browser and Node.js",
   "keywords": [
     "protonmail",
