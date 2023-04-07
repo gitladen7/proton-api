@@ -249,7 +249,7 @@ export class ProtonmailClient extends EventEmitter {
             throw new Error("Encrypted access tokens are not supported :^(");
         }
 
-        const twoFactorEnabled = authResponse["2FA"].Enabled === 1;
+        const twoFactorEnabled = authResponse["2FA"].Enabled !== 0;
 
         if (twoFactorEnabled &&
             authResponse["2FA"].TOTP === 0) {
