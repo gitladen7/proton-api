@@ -4,6 +4,12 @@ export interface ILoginInformation {
     username: string;
     loginPassword: string;
     otpToken?: string;
+    FIDO2Callback?: (args: { AuthenticationOptions: IFIDO2AuthenticationOptions }) => Promise<{
+        ClientData: string,
+        AuthenticatorData: string,
+        Signature: string,
+        CredentialID: number[],
+    }>
 }
 
 export interface ITokenLoginInformation {
@@ -32,6 +38,28 @@ export interface IAuthRequest {
     Username: string;
 }
 
+export interface IFIDO2AuthenticationOptions {
+    publicKey: {
+        timeout: number,
+        challenge: number[],
+        userVerification: string,
+        rpId: string,
+        allowCredentials: [{
+            id: number[],
+            type: string,
+        }]
+    }
+}
+
+export interface IFIDO2Data {
+    AuthenticationOptions: IFIDO2AuthenticationOptions,
+    RegisteredKeys: {
+        AttestationFormat: string,
+        CredentialID: number[],
+        Name: string,
+    }[],
+}
+
 export interface IAuthResponse extends IBaseAPIResponse {
     AccessToken: string;
     ExpiresIn: number;
@@ -46,7 +74,7 @@ export interface IAuthResponse extends IBaseAPIResponse {
     TwoFactor: number;
     "2FA": {
         Enabled: number;
-        U2F: null;
+        FIDO2: null | IFIDO2Data;
         TOTP: number;
     }
     PrivateKey: string;
@@ -57,6 +85,13 @@ export interface IAuthResponse extends IBaseAPIResponse {
 
 export interface IAuth2FARequest {
     TwoFactorCode?: string;
+    FIDO2?: {
+        AuthenticationOptions: IFIDO2AuthenticationOptions,
+        ClientData: string,
+        AuthenticatorData: string,
+        Signature: string,
+        CredentialID: number[],
+    }
 }
 
 export interface IAuth2FAResponse extends IBaseAPIResponse {

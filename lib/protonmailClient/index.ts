@@ -252,14 +252,10 @@ export class ProtonmailClient extends EventEmitter {
         const twoFactorEnabled = authResponse["2FA"].Enabled !== 0;
 
         if (twoFactorEnabled &&
-            authResponse["2FA"].TOTP === 0) {
-            throw new Error("Unsupported 2FA type");
-        }
-
-        if (twoFactorEnabled &&
-            typeof loginInformation.otpToken !== "string"
+            (typeof loginInformation.otpToken !== "string" &&
+                loginInformation.FIDO2Callback === undefined)
         ) {
-            throw new Error("2FA is enabled on the account so you have to provide a 2FA token");
+            throw new Error("2FA is enabled on the account so you have to provide a 2FA token or FIDO2 callback");
         }
 
         this.accessToken = accessToken;
@@ -267,9 +263,24 @@ export class ProtonmailClient extends EventEmitter {
         this.pmUID = authResponse.Uid;
         this.emit("refresh_token_change");
 
-        if (twoFactorEnabled) {
+        if (twoFactorEnabled && typeof loginInformation.otpToken === "string") {
+            if (authResponse["2FA"].TOTP === 0) {
+                throw new Error("TOTP is disabled");
+            }
             await this.auth2FA({
                 TwoFactorCode: `${loginInformation.otpToken}`,
+            });
+        } else if (twoFactorEnabled && loginInformation.FIDO2Callback !== undefined) {
+            if (authResponse["2FA"].FIDO2 === undefined) {
+                throw new Error("FIDO2 is disabled");
+            }
+            await this.auth2FA({
+                FIDO2: {
+                    AuthenticationOptions: authResponse["2FA"].FIDO2!.AuthenticationOptions,
+                    ... await loginInformation.FIDO2Callback({
+                        AuthenticationOptions: authResponse["2FA"].FIDO2!.AuthenticationOptions,
+                    }),
+                },
             });
         }
 
