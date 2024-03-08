@@ -11,6 +11,7 @@ import { EventEmitter } from "events";
 import { IBaseAPIResponse } from "./types";
 import { EventsRoutes } from "./events";
 import { SessionsRoutes } from "./sessions";
+import { SubscriptionRoutes } from "./subscription";
 
 export interface IProtonmailClientOptions {
     domain: string;
@@ -89,6 +90,11 @@ export class ProtonmailClient extends EventEmitter {
         return this.sessions_;
     }
 
+    private subscription_: SubscriptionRoutes;
+    public get subscription(): SubscriptionRoutes {
+        return this.subscription_;
+    }
+
     public get isLoggedIn(): boolean {
         return this.isloggedIn_;
     }
@@ -100,6 +106,7 @@ export class ProtonmailClient extends EventEmitter {
         this.messages_ = new MessagesRoutes(this);
         this.events_ = new EventsRoutes(this);
         this.sessions_ = new SessionsRoutes(this);
+        this.subscription_ = new SubscriptionRoutes(this);
 
         if (options) {
             if (typeof options.userAgent === "string") {
