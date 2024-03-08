@@ -1,6 +1,6 @@
 {
   "name": "proton-api",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Unofficial API for ProtonMail. Works both in browser and Node.js",
   "keywords": [
     "protonmail",
@@ -8,7 +8,7 @@
   ],
   "main": "dist/index.js",
   "browser": "dist/index.browser.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/gitladen7/proton-api.git"
